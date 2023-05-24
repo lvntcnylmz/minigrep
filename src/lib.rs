@@ -1,18 +1,16 @@
-//! # lib create
+//! # minigrep
 //!
-//! Contains all the logic to search regex for case-sensetive and case-insensetive.
+//! A small library for searching case-sensitive and case-insensitive regexes
 use colored::*;
 use std::{env, error::Error, fs};
 
-/// # Config struct
-///
-/// Stores all the data for searching the query in a file on the file path.
+/// Holds information such as regex to search for, file to search for and case sensitivity.
 pub struct Config {
     /// string to search for in file
     pub query: String,
     /// file path of the file to search
     pub file_path: String,
-    /// option to ignore case sensitivity in search query
+    /// case sensitivity option
     pub ignore_case: bool,
 }
 
@@ -73,7 +71,7 @@ fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     results
 }
 
-/// Case-insensetive search for a query in a specified file.
+/// Case-insensitive search for a query in a specified file.
 ///
 /// ## Usage:
 ///
