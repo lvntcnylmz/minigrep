@@ -1,3 +1,4 @@
+use colored::*;
 use std::{env, process};
 
 use minigrep::Config;
@@ -6,7 +7,8 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     let config = Config::build(&args).unwrap_or_else(|err| {
-        eprintln!("Problem parsing arguments: {err}");
+        let error_message = "Problem parsing arguments.".bright_red();
+        eprintln!("{}: {}", error_message, err.red().bold().blink());
         process::exit(1);
     });
 

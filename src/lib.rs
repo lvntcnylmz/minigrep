@@ -1,12 +1,25 @@
+//! # lib create
+//!
+//! Contains all the logic to search regex for case-sensetive and case-insensetive.
+use colored::*;
 use std::{env, error::Error, fs};
 
+/// # Config struct
+///
+/// Stores all the data for searching the query in a file on the file path.
 pub struct Config {
+    /// string to search for in file
     pub query: String,
+    /// file path of the file to search
     pub file_path: String,
+    /// option to ignore case sensitivity in search query
     pub ignore_case: bool,
 }
 
 impl Config {
+    /// # Errors
+    ///
+    /// This function returns an error if there are not enough arguments.
     pub fn build(args: &[String]) -> Result<Config, &'static str> {
         if args.len() < 3 {
             return Err("not enough arguments");
@@ -25,6 +38,9 @@ impl Config {
     }
 }
 
+/// # Errors
+///
+/// This function will return an error if path does not already exist.
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.file_path)?;
 
@@ -35,12 +51,17 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     };
 
     for line in results {
-        println!("{line}");
+        println!("{}", line.green());
     }
 
     Ok(())
 }
 
+/// Case-sensitive search for a query in a specified file.
+///
+/// ## Usage
+///
+/// `search(query to search, file_path or file)`
 fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     let mut results = Vec::new();
 
@@ -52,6 +73,11 @@ fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     results
 }
 
+/// Case-insensetive search for a query in a specified file.
+///
+/// ## Usage:
+///
+/// `search_case_insensitive(query to search, file_path or filez)`
 fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     let query = query.to_lowercase();
     let mut results = Vec::new();
